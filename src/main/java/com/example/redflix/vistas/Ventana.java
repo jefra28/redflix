@@ -9,7 +9,7 @@ import com.example.redflix.RedflixApplication;
 import com.example.redflix.SpringContext;
 import com.example.redflix.modelos.Usuario;
 import com.example.redflix.repositorios.RepositorioUsuario;
-import java.util.Date;
+import java.util.Optional;
 
 /**
  *
@@ -58,7 +58,7 @@ public class Ventana extends javax.swing.JFrame {
         botonCrearUsuario = new javax.swing.JButton();
         botonEliminarUsuario = new javax.swing.JButton();
         botonBuscarUsuario = new javax.swing.JButton();
-        jTextField8 = new javax.swing.JTextField();
+        mensajes = new javax.swing.JTextField();
         botonActualizarUsuario1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -124,8 +124,6 @@ public class Ventana extends javax.swing.JFrame {
             }
         });
 
-        jTextField8.setText("jTextField8");
-
         botonActualizarUsuario1.setText("Actualizar Usuario");
         botonActualizarUsuario1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -184,7 +182,7 @@ public class Ventana extends javax.swing.JFrame {
                                         .addComponent(jLabel8)
                                         .addGap(18, 18, 18)
                                         .addComponent(campoFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(mensajes, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -221,7 +219,7 @@ public class Ventana extends javax.swing.JFrame {
                     .addComponent(botonActualizarUsuario1)
                     .addComponent(botonEliminarUsuario))
                 .addGap(18, 18, 18)
-                .addComponent(jTextField8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mensajes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -239,6 +237,7 @@ public class Ventana extends javax.swing.JFrame {
         String fechaNacimiento = campoFechaNacimiento.getText();
         Usuario nuevoUsuario = new Usuario(username,nombre,apellido,email,celular,contraseña,fechaNacimiento);
         repositorioUsuario.save(nuevoUsuario);
+        mensajes.setText("Usuario Creado");
     }//GEN-LAST:event_botonCrearUsuarioActionPerformed
 
     private void botonEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarUsuarioActionPerformed
@@ -247,6 +246,20 @@ public class Ventana extends javax.swing.JFrame {
 
     private void botonBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarUsuarioActionPerformed
         // TODO add your handling code here:
+        String username = campoUsername.getText();
+        Optional<Usuario> resultado = repositorioUsuario.findById(username);
+        if(resultado.isPresent ()) {
+            Usuario usuarioEncontrado = resultado.get();
+            campoNombre.setText(usuarioEncontrado.getNombre());
+            campoApellido.setText(usuarioEncontrado.getApellido());
+            campoEmail.setText(usuarioEncontrado.getEmail());
+            campoCelular.setText(usuarioEncontrado.getCelular());
+            campoContraseña.setText(usuarioEncontrado.getPassword());
+            campoFechaNacimiento.setText(usuarioEncontrado.getFecha_nacimiento());
+            mensajes.setText("Usuario encontrado");
+        } else {
+            mensajes.setText("El usuario no existe");
+        }
     }//GEN-LAST:event_botonBuscarUsuarioActionPerformed
 
     private void botonActualizarUsuario1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonActualizarUsuario1ActionPerformed
@@ -283,6 +296,6 @@ public class Ventana extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JTextField jTextField8;
+    private javax.swing.JTextField mensajes;
     // End of variables declaration//GEN-END:variables
 }
