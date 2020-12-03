@@ -241,7 +241,13 @@ public class Ventana extends javax.swing.JFrame {
     }//GEN-LAST:event_botonCrearUsuarioActionPerformed
 
     private void botonEliminarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEliminarUsuarioActionPerformed
-        // TODO add your handling code here:
+        String username = (campoUsername.getText());
+            try {
+                repositorioUsuario.deleteById(username);
+                mensajes.setText("Se eliminó el usuario: " + username);
+            } catch (Exception e) {
+                mensajes.setText("Ocurrió un error al eliminar");
+            }
     }//GEN-LAST:event_botonEliminarUsuarioActionPerformed
 
     private void botonBuscarUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonBuscarUsuarioActionPerformed
